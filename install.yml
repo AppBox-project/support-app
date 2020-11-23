@@ -9,6 +9,7 @@ script:
       g: 163
       b: 123
   steps:
+  - 
   post-install:
     - registerApp
 
