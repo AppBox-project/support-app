@@ -1,0 +1,18 @@
+# Install scripts
+## Store
+script:
+  info:
+    name: Support
+    icon: FaTicketAlt
+    color:
+      r: 0
+      g: 163
+      b: 123
+  steps:
+  post-install:
+    - registerApp
+
+# Data to load into the system
+data:
+  models:
+  objects:
