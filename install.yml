@@ -27,6 +27,7 @@ script:
         r: 0
         g: 163
         b: 123
+  - cleanUp
 
 # Data to load into the system
 data:
