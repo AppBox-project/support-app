@@ -1,6 +1,6 @@
 # Install script
 script:
-  - action: installApp
+  - action: installClient
     folder: Client
   - action: installStandAlone
     folder: Support
