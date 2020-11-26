@@ -2,6 +2,23 @@
 script:
   - action: installApp
     folder: Client
+  - action: installStandAlone
+    folder: Support
+    defaultConfig:
+      app_name: Support portal
+      requireSignIn: true
+      signInWith: people
+      allowPeopleWithTypes: Support
+      configVersion: 3
+      color:
+        r: 0
+        g: 163
+        b: 123
+      login:
+        background: https://images.pexels.com/photos/5453837/pexels-photo-5453837.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260
+        welcomeText:
+          Welcome to the support portal. Sign in with your appbox account to
+          view your open tickets or add new ones.
   - action: registerApp
     info:
       name: Support
