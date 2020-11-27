@@ -19,6 +19,7 @@ script:
         welcomeText:
           Welcome to the support portal. Sign in with your appbox account to
           view your open tickets or add new ones.
+  - compile
   - action: registerApp
     info:
       name: Support
@@ -27,7 +28,6 @@ script:
         r: 0
         g: 163
         b: 123
-  - compile
   - cleanUp
 
 # Data to load into the system
