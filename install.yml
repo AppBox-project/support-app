@@ -24,6 +24,7 @@ script:
     info:
       name: Support
       icon: FaTicketAlt
+      repository: https://github.com/AppBox-project/support-app.git
       color:
         r: 0
         g: 163
