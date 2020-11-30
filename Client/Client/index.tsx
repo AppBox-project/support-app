@@ -1,6 +1,7 @@
 import FourOhFour from "../../Components/FourOhFour";
 import { FaDashcube, FaTicketAlt } from "react-icons/fa";
 import AppSupportTickets from "./Tickets";
+import AppSettings from "./Settings";
 
 export default class App {
   context: any;
@@ -15,6 +16,7 @@ export default class App {
       group: true,
       mobile: { displayAs: "bottom-navigation" },
     },
+    settings: AppSettings,
   };
 
   getActions = () => {
