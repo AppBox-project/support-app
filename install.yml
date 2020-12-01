@@ -19,6 +19,10 @@ script:
         welcomeText:
           Welcome to the support portal. Sign in with your appbox account to
           view your open tickets or add new ones.
+  - action: createModel
+    model: support-tickets
+  - action: createModel
+    model: support-responses
   - compile
   - action: registerApp
     info:
@@ -34,4 +38,494 @@ script:
 # Data to load into the system
 data:
   models:
+    # Tickets
+    support-tickets:
+      preview:
+        fields:
+          - name
+          - agent
+        enabled: true
+      permissions:
+        read:
+          - support
+        create:
+          - support
+        modifyOwn:
+          - support
+        write:
+          - support
+        delete:
+          - support
+        deleteOwn:
+          - support
+        archive:
+          - support
+        archiveOwn:
+          - support
+      key: support-tickets
+      name: Ticket
+      name_plural: Tickets
+      actions:
+        create:
+          layout: create
+          type: create
+      overviews:
+        default:
+          fields:
+            - name
+            - agent
+          buttons:
+            - create
+          actions:
+            - delete
+      layouts:
+        default:
+          layout:
+            - type: AnimationContainer
+              id: kf2r51ws
+              items:
+                - type: AnimationItem
+                  id: kf2r5375
+                  items:
+                    - type: Paper
+                      id: kf2r56lv
+                      title: Ticket
+                      withBigMargin: true
+                      key: default
+                      items:
+                        - type: Field
+                          id: khuor3gg
+                          field: title
+                          key: content
+                          name: Content
+                        - type: Field
+                          id: khuoubxe
+                          field: content
+                          key: content
+                          name: Content
+          buttons:
+            - delete
+            - archive
+          factsBar:
+            - name
+            - agent
+        create:
+          layout:
+            - type: Field
+              id: khuouog0
+              field: title
+              key: content
+              name: Content
+              items:
+                - type: Field
+                  id: khw1c5pr
+                  field: person
+            - type: Field
+              id: khuousd1
+              field: content
+              key: content
+              name: Content
+            - type: Field
+              id: khvtlfgw
+              field: person
+              key: status
+              name: Status
+              newOptions: New,In progress,On hold,Waiting for requester,Waiting for external,Solved,Closed
+            - type: Field
+              id: khw1ccs8
+              field: status
+          buttons: []
+        agent-detail:
+          layout:
+            - type: AnimationContainer
+              id: khupojah
+              items:
+                - type: GridContainer
+                  id: khupomh5
+                  items:
+                    - type: GridItem
+                      id: khuponuk
+                      items:
+                        - type: AnimationItem
+                          id: khupoqp2
+                          items:
+                            - type: Paper
+                              id: khupp4q4
+                              title: "{title}"
+                              key: agent-detail
+                              md: 10
+                              items:
+                                - type: Field
+                                  id: khupz4f3
+                                  field: title
+                                  hideView: true
+                                - type: Field
+                                  id: khuppnl9
+                                  field: content
+                                  key: agent-detail
+                                  md: 10
+                                  title: Details
+                                  noLabel: true
+                              withBigMargin: true
+                              field: content
+                        - type: AnimationItem
+                          id: khuqepwd
+                          items:
+                            - type: DetailedRelatedList
+                              id: khuqexvo
+                              title: Add new response
+                              model: support-responses
+                              field: ticket
+                              layoutId: agent-detail
+                              emptyMessage: No one responded yet.
+                              createNew: true
+                              addLayout: agent-detail-add
+                              key: agent-detail-add
+                              withBigMargin: true
+                              valueCopyFields: ticket=_id
+                      xs: 12
+                      md: 9
+                      key: agent-detail
+                      scrollIndependently: true
+                    - type: GridItem
+                      id: khupop64
+                      items:
+                        - type: AnimationItem
+                          id: khupotx8
+                          items:
+                            - type: Paper
+                              id: khuppbz6
+                              title: Details
+                              key: agent-detail
+                              md: 10
+                              items:
+                                - type: Field
+                                  id: khuql1cp
+                                  field: person
+                                  noLabel: false
+                                  title: "{agent}"
+                                  model: support-responses
+                                  layoutId: agent-detail
+                                  emptyMessage: No responses yet.
+                                  key: person
+                                  name: Person
+                                  md: 3
+                                  withBigMargin: true
+                                  hideView: false
+                                  hideEdit: false
+                                - type: Field
+                                  id: khuppilw
+                                  field: agent
+                                  key: agent-detail
+                                  md: 10
+                                  title: Details
+                                  hideView: false
+                                  noLabel: false
+                                  hideEdit: false
+                                - type: Field
+                                  id: khvtllre
+                                  field: status
+                                  noLabel: false
+                                  key: status
+                                  name: Status
+                                  newOptions:
+                                    New,In progress,On hold,Waiting for requester,Waiting
+                                    for external,Solved,Closed
+                                  emptyMessage: No one responded yet.
+                              withBigMargin: true
+                              field: content
+                      xs: 12
+                      md: 3
+                      key: agent-detail
+                      scrollIndependently: true
+          buttons: []
+      app: support
+      icon: FaTicketAlt
+      primary: name
+      fields:
+        name:
+          name: Name
+          type: auto_name
+          typeArgs:
+            prefix: TICKET
+        agent:
+          name: Agent
+          type: relationship
+          typeArgs:
+            relationshipTo: users
+          default: "{{ __currentUserId }}"
+        title:
+          name: Title
+          type: input
+          typeArgs:
+            type: text
+        content:
+          name: Content
+          type: richtext
+        person:
+          name: Person
+          type: relationship
+          typeArgs:
+            relationshipTo: people
+        status:
+          name: Status
+          type: options
+          typeArgs:
+            options:
+              - label: New
+                key: New
+              - label: In progress
+                key: In progress
+              - label: On hold
+                key: On hold
+              - label: Waiting for requester
+                key: Waiting for requester
+              - label: Waiting for external
+                key: Waiting for external
+              - label: Solved
+                key: Solved
+              - label: Closed
+                key: Closed
+            display: dropdown
+          default: New
+      api:
+        read:
+          active: true
+          authentication: none
+    support-responses:
+      preview:
+        fields: []
+      permissions:
+        read:
+          - support
+        create:
+          - support
+        modifyOwn:
+          - support
+        write:
+          - support
+        delete:
+          - support
+        deleteOwn:
+          - support
+        archive:
+          - support
+        archiveOwn:
+          - support
+      key: support-responses
+      name: Response
+      name_plural: Responses
+      actions:
+        create:
+          layout: default
+          type: create
+      overviews:
+        default:
+          fields:
+            - ticket
+            - content
+          buttons:
+            - create
+          actions:
+            - delete
+      layouts:
+        default:
+          layout:
+            - type: AnimationContainer
+              id: kf2r51ws
+              items:
+                - type: AnimationItem
+                  id: kf2r5375
+                  items:
+                    - type: Paper
+                      id: kf2r56lv
+                      title: Response
+                      withBigMargin: true
+                      key: default
+                      items:
+                        - type: Field
+                          id: khuqhykx
+                          field: content
+                          title: Responses
+                          model: support-responses
+                          layoutId: agent-detail
+                          emptyMessage: No responses yet.
+                          key: agent
+                          name: Agent
+                        - type: Field
+                          id: khuqi1qb
+                          field: ticket
+                          title: Responses
+                          model: support-responses
+                          layoutId: agent-detail
+                          emptyMessage: No responses yet.
+                          key: agent
+                          name: Agent
+                        - type: Field
+                          id: khuqi64r
+                          field: agent
+                          title: Responses
+                          model: support-responses
+                          layoutId: agent-detail
+                          emptyMessage: No responses yet.
+                          key: agent
+                          name: Agent
+          buttons: []
+        create:
+          layout:
+            - type: Field
+              id: khuqhjiq
+              field: ticket
+              title: Responses
+              model: support-responses
+              layoutId: agent-detail
+              emptyMessage: No responses yet.
+              key: agent
+              name: Agent
+            - type: Field
+              id: khuqhkpx
+              field: agent
+              title: Responses
+              model: support-responses
+              layoutId: agent-detail
+              emptyMessage: No responses yet.
+              key: agent
+              name: Agent
+            - type: Field
+              id: khuqhsnr
+              field: content
+              title: Responses
+              model: support-responses
+              layoutId: agent-detail
+              emptyMessage: No responses yet.
+              key: agent
+              name: Agent
+          buttons: []
+        agent-detail:
+          layout:
+            - type: GridContainer
+              id: khuqii1v
+              items:
+                - type: GridItem
+                  id: khuqijif
+                  xs: 12
+                  md: 9
+                  title: Responses
+                  model: support-responses
+                  field: agent
+                  layoutId: agent-detail
+                  emptyMessage: No responses yet.
+                  key: agent
+                  name: Agent
+                  items:
+                    - type: AnimationItem
+                      id: khuqiucf
+                      items:
+                        - type: Paper
+                          id: khuqiylv
+                          title: ""
+                          withBigMargin: true
+                          model: support-responses
+                          field: agent
+                          layoutId: agent-detail
+                          emptyMessage: No responses yet.
+                          key: agent
+                          name: Agent
+                          md: 3
+                          items:
+                            - type: Field
+                              id: khuqjimr
+                              field: content
+                              title: "{agent}"
+                              model: support-responses
+                              layoutId: agent-detail
+                              emptyMessage: No responses yet.
+                              key: agent
+                              name: Agent
+                              md: 3
+                              withBigMargin: true
+                              noLabel: true
+                - type: GridItem
+                  id: khuqip3n
+                  xs: 12
+                  md: 3
+                  title: Responses
+                  model: support-responses
+                  field: agent
+                  layoutId: agent-detail
+                  emptyMessage: No responses yet.
+                  key: agent
+                  name: Agent
+                  items:
+                    - type: AnimationItem
+                      id: khuqiwgf
+                      items:
+                        - type: Paper
+                          id: khuqj0sv
+                          title: ""
+                          withBigMargin: true
+                          model: support-responses
+                          field: agent
+                          layoutId: agent-detail
+                          emptyMessage: No responses yet.
+                          key: agent
+                          name: Agent
+                          md: 3
+                          items:
+                            - type: Field
+                              id: khuqjo7e
+                              field: agent
+                              title: "{agent}"
+                              model: support-responses
+                              layoutId: agent-detail
+                              emptyMessage: No responses yet.
+                              key: agent
+                              name: Agent
+                              md: 3
+                              withBigMargin: true
+                              noLabel: true
+                          noLabel: true
+          buttons: []
+        agent-detail-add:
+          layout:
+            - type: AnimationItem
+              id: khvzif38
+              items:
+                - type: Paper
+                  id: khvzii9o
+                  title: Add new response
+                  withBigMargin: true
+                  key: agent-detail-add
+                  items:
+                    - type: Field
+                      id: khvzircq
+                      field: content
+                      key: agent-detail-add
+                      withBigMargin: true
+                      title: Add new response
+          buttons: []
+      __v: 0
+      app: support
+      icon: FaCommentDots
+      primary: name
+      fields:
+        content:
+          name: Content
+          type: richtext
+        ticket:
+          name: Ticket
+          type: relationship
+          typeArgs:
+            relationshipTo: support-tickets
+        agent:
+          name: Agent
+          type: relationship
+          typeArgs:
+            relationshipTo: users
+          default: "{{ __currentUserId }}"
+      api:
+        read:
+          active: true
+          authentication: user
+
   objects:
